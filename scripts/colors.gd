@@ -1,3 +1,8 @@
-extends Node
+class_name Colors
 
-var list: Array[Color] = [Color.from_string("a76a45", Color.ORANGE), Color.from_string("da6362", Color.RED), Color.from_string("569d79", Color.GREEN), Color.from_string("b17797", Color.PURPLE)]
+const LIST: Array[Color] = [
+	Color(0.65, 0.42, 0.27), # orange
+	Color(0.85, 0.39, 0.38), # red
+	Color(0.34, 0.61, 0.48), # green
+	Color(0.69, 0.47, 0.59), # purple
+]

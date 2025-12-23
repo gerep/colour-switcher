@@ -1,9 +1,9 @@
 extends Area2D
 
+var current_color: int
+
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var visible_on_screen_notifier_2d: VisibleOnScreenNotifier2D = $VisibleOnScreenNotifier2D
-
-var current_color: int
 
 
 func _ready() -> void:
@@ -12,12 +12,12 @@ func _ready() -> void:
 
 	position.x = randf_range(36.0, 700.0)
 
-	current_color = randi_range(0, Colors.list.size()-1)
-	sprite_2d.modulate = Colors.list[current_color]
+	current_color = randi_range(0, Colors.LIST.size() - 1)
+	sprite_2d.modulate = Colors.LIST[current_color]
 
 
-func _process(_delta: float) -> void:
-	position.y += 5
+func _process(delta: float) -> void:
+	position.y += 200 * delta
 
 
 func _collision(body: Node2D) -> void:

@@ -81,3 +81,15 @@ theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "[center][shake rate=20.0 level=20 connected=1]BURST TIME[/shake][/center]"
 fit_content = true
+
+[node name="LeftLine" type="Line2D" parent="."]
+points = PackedVector2Array(0, 1280, 0, 99)
+
+[node name="RightLine" type="Line2D" parent="."]
+position = Vector2(720, 0)
+points = PackedVector2Array(0, 1280, 0, 99)
+
+[node name="BottomLine" type="Line2D" parent="."]
+position = Vector2(1016, 1280)
+rotation = 1.5707964
+points = PackedVector2Array(0, 1016, 0, 296)

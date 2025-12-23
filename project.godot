@@ -17,7 +17,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Colors="*res://scripts/colors.gd"
 Signals="*res://scripts/signals.gd"
 Game="*res://scripts/game.gd"
 
@@ -26,6 +25,10 @@ Game="*res://scripts/game.gd"
 window/size/viewport_width=720
 window/size/viewport_height=1280
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/s/plugin.cfg")
 
 [input]
 
