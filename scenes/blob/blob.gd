@@ -25,6 +25,6 @@ func _collision(body: Node2D) -> void:
 		Game.player_score += 1
 		Signals.score_updated.emit(Game.player_score)
 	else:
-		print("game over")
+		pass
 
 	call_deferred(&"queue_free")

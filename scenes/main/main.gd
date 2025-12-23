@@ -2,9 +2,7 @@ extends Node2D
 
 const BLOB = preload("uid://b6chd6vkxeaaa")
 
-var spawn_interval: int = 3
-
-@onready var timer: Timer = $SpawnTimer
+@onready var blob_spawn_timer: Timer = $SpawnTimer
 @onready var speed_burst_timer: Timer = $SpeedBurstTimer
 @onready var right_line: Line2D = $RightLine
 @onready var left_line: Line2D = $LeftLine
@@ -12,9 +10,10 @@ var spawn_interval: int = 3
 
 
 func _ready() -> void:
-	timer.timeout.connect(_spawn_blob)
-	timer.wait_time = spawn_interval
+	blob_spawn_timer.wait_time = Game.blob_spawn_interval
+	speed_burst_timer.wait_time = Game.burst_interval
 
+	blob_spawn_timer.timeout.connect(_spawn_blob)
 	speed_burst_timer.timeout.connect(_speed_burst)
 
 	Signals.right_bar_color_changed.connect(_right_bar_color_changed)
@@ -30,13 +29,29 @@ func _spawn_blob() -> void:
 	add_child(blob)
 
 
+func _reset_blob_timer(interval: float) -> void:
+	blob_spawn_timer.stop()
+	blob_spawn_timer.wait_time = interval
+	blob_spawn_timer.start()
+
+
 func _speed_burst() -> void:
-	Signals.burst_started.emit()
+	# Stop it and start again after the burst period.
 	speed_burst_timer.stop()
-	timer.wait_time = 1
-	await get_tree().create_timer(5).timeout
-	timer.wait_time = spawn_interval
+
+	Signals.burst_started.emit()
+
+	_reset_blob_timer(Game.min_blob_spawn_interval)
+	await get_tree().create_timer(Game.burst_duration).timeout
+	_reset_blob_timer(Game.blob_spawn_interval)
+
+	# Update the burst interval.
+	Game.decrease_burst_interval()
+
+	# Set the new burst duration.
+	speed_burst_timer.wait_time = Game.burst_duration
 	speed_burst_timer.start()
+
 	Signals.burst_ended.emit()
 
 
