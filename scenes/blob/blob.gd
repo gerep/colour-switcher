@@ -7,10 +7,11 @@ var speed_multiplier: float = 1.0
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var visible_on_screen_notifier_2d: VisibleOnScreenNotifier2D = $VisibleOnScreenNotifier2D
+@onready var gpu_particles_2d: GPUParticles2D = $GPUParticles2D
 
 
 func _ready() -> void:
-	visible_on_screen_notifier_2d.screen_exited.connect(queue_free)
+	visible_on_screen_notifier_2d.screen_exited.connect(_remove_from_scene)
 	body_entered.connect(_collision)
 
 	Signals.burst_started.connect(_burst_started)
@@ -28,11 +29,17 @@ func _process(delta: float) -> void:
 
 func _collision(body: Node2D) -> void:
 	if body.current_color == current_color:
+		gpu_particles_2d.emitting = true
+		sprite_2d.visible = false
+
+		gpu_particles_2d.modulate = Colors.LIST[current_color]
+
 		Game.player_score += 1
 		Signals.score_updated.emit(Game.player_score)
 	else:
 		pass
 
+	await gpu_particles_2d.finished
 	call_deferred(&"queue_free")
 
 
@@ -42,3 +49,8 @@ func _burst_started() -> void:
 
 func _burst_ended() -> void:
 	speed_multiplier = 1.0
+
+
+func _remove_from_scene() -> void:
+	await gpu_particles_2d.finished
+	call_deferred(&"queue_free")

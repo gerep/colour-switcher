@@ -1,10 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6chd6vkxeaaa"]
+[gd_scene load_steps=7 format=3 uid="uid://b6chd6vkxeaaa"]
 
 [ext_resource type="Script" uid="uid://d3ktgy5w6w01p" path="res://scenes/blob/blob.gd" id="1_gatb5"]
 [ext_resource type="Texture2D" uid="uid://bgpjfvl75c538" path="res://assets/blob.png" id="1_rk55l"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rk55l"]
 radius = 18.0
+
+[sub_resource type="Curve" id="Curve_gatb5"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_peg37"]
+curve = SubResource("Curve_gatb5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bu0dx"]
+direction = Vector3(0, -5, 0)
+spread = 10.0
+initial_velocity_min = 200.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 400, 0)
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_peg37")
 
 [node name="Blob" type="Area2D"]
 script = ExtResource("1_gatb5")
@@ -16,3 +32,12 @@ shape = SubResource("CircleShape2D_rk55l")
 texture = ExtResource("1_rk55l")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+modulate = Color(0.6509804, 0.41960785, 0.27058825, 1)
+emitting = false
+amount = 20
+texture = ExtResource("1_rk55l")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_bu0dx")

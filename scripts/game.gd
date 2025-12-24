@@ -4,8 +4,8 @@ var player_score: int
 var burst_interval: float = 10.0 # TODO: Should it be 11 to start at 10 on the first -1?
 var min_burst_interval: float = 5.0
 var burst_duration: float = 5.0
-var blob_spawn_interval: float = 3.0
-var min_blob_spawn_interval: float = 1.0
+var blob_spawn_interval: float = 2.5
+var min_blob_spawn_interval: float = 0.6
 
 
 func decrease_burst_interval() -> void:
