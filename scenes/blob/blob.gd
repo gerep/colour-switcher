@@ -7,7 +7,8 @@ var speed_multiplier: float = 1.0
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var visible_on_screen_notifier_2d: VisibleOnScreenNotifier2D = $VisibleOnScreenNotifier2D
-@onready var gpu_particles_2d: GPUParticles2D = $GPUParticles2D
+@onready var gpu_particles_2d: GPUParticles2D = $CollisionParticle
+@onready var burst_particle: GPUParticles2D = $BurstParticle
 
 
 func _ready() -> void:
@@ -22,6 +23,13 @@ func _ready() -> void:
 	current_color = randi_range(0, Colors.LIST.size() - 1)
 	sprite_2d.modulate = Colors.LIST[current_color]
 
+	gpu_particles_2d.modulate = Colors.LIST[current_color]
+	burst_particle.modulate = Colors.LIST[current_color]
+
+	if Game.burst_happening:
+		burst_particle.emitting = true
+		speed_multiplier = 1.5
+
 
 func _process(delta: float) -> void:
 	position.y += SPEED * delta * speed_multiplier
@@ -31,9 +39,7 @@ func _collision(body: Node2D) -> void:
 	if body.current_color == current_color:
 		gpu_particles_2d.emitting = true
 		sprite_2d.visible = false
-
-		gpu_particles_2d.modulate = Colors.LIST[current_color]
-
+		burst_particle.emitting = false
 		Game.player_score += 1
 		Signals.score_updated.emit(Game.player_score)
 	else:
@@ -44,10 +50,12 @@ func _collision(body: Node2D) -> void:
 
 
 func _burst_started() -> void:
+	burst_particle.emitting = true
 	speed_multiplier = 1.5
 
 
 func _burst_ended() -> void:
+	burst_particle.emitting = false
 	speed_multiplier = 1.0
 
 

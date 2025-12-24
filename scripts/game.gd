@@ -6,6 +6,12 @@ var min_burst_interval: float = 5.0
 var burst_duration: float = 5.0
 var blob_spawn_interval: float = 2.5
 var min_blob_spawn_interval: float = 0.6
+var burst_happening: bool
+
+
+func _ready() -> void:
+	Signals.burst_started.connect(func(): burst_happening = true)
+	Signals.burst_ended.connect(func(): burst_happening = false)
 
 
 func decrease_burst_interval() -> void:
