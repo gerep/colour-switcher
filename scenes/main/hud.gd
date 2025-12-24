@@ -8,6 +8,7 @@ var burst_counter: int = 0
 
 @onready var points_label: Label = %PointsLabel
 @onready var burst_time_label: RichTextLabel = %BurstTimeLabel
+@onready var chromatic_aberration: ColorRect = $ChromaticAberration
 
 
 func _ready() -> void:
@@ -17,6 +18,7 @@ func _ready() -> void:
 
 
 func _burst_started() -> void:
+	chromatic_aberration.visible = true
 	if current_rate_level == max_rate_level:
 		burst_counter = 0
 		current_rate_level = min_rate_level
@@ -30,6 +32,7 @@ func _burst_started() -> void:
 
 
 func _burst_ended() -> void:
+	chromatic_aberration.visible = false
 	burst_time_label.visible = false
 
 
