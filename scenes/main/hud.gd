@@ -50,6 +50,7 @@ func _game_over():
 	score_container.visible = false
 	menu_container.visible = false
 	game_over_container.visible = true
+	tutorial_label.visible = false
 	combo_label.text = ""
 	game_over_label.text = game_over_points_text.format([Game.player_score])
 
