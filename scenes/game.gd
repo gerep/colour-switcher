@@ -1,6 +1,7 @@
 extends Node2D
 
 var player_score: int
+var combo_counter: int = 1
 var burst_interval: float = 10.0 # TODO: Should it be 11 to start at 10 on the first -1?
 var min_burst_interval: float = 5.0
 var burst_duration: float = 5.0

@@ -18,10 +18,12 @@ var burst_counter: int = 0
 @onready var menu_container: PanelContainer = %MenuContainer
 @onready var game_over_label: RichTextLabel = %GameOverLabel
 @onready var game_over_container: PanelContainer = %GameOverContainer
+@onready var combo_label: RichTextLabel = %ComboLabel
 
 
 func _ready() -> void:
 	Signals.score_updated.connect(_update_score)
+	Signals.combo_updated.connect(_update_combo)
 	Signals.burst_started.connect(_burst_started)
 	Signals.burst_ended.connect(_burst_ended)
 	Signals.start_game.connect(_start_game)
@@ -43,6 +45,7 @@ func _game_over():
 	score_container.visible = false
 	menu_container.visible = false
 	game_over_container.visible = true
+	combo_label.text = ""
 	game_over_label.text = game_over_points_text.format([Game.player_score])
 
 
@@ -73,3 +76,15 @@ func _burst_ended() -> void:
 
 func _update_score(value: int) -> void:
 	points_label.text = str(value)
+
+
+func _update_combo(value: int) -> void:
+	var text: String = ""
+	if value < 5:
+		text = "x%d" % value
+	elif value < 10:
+		text = "[wave][color=yellow]x%d[/color][/wave]" % value
+	else:
+		text = "[wave][color=red]x%d[/color][/wave]" % value
+
+	combo_label.text = text

@@ -41,9 +41,12 @@ func _collision(body: Node2D) -> void:
 		gpu_particles_2d.emitting = true
 		sprite_2d.visible = false
 		burst_particle.emitting = false
-		Game.player_score += 1
+		Game.combo_counter += 1
+		Game.player_score += 1 * Game.combo_counter
 		Signals.score_updated.emit(Game.player_score)
+		Signals.combo_updated.emit(Game.combo_counter)
 	else:
+		Game.combo_counter = 1
 		Game.play_failure()
 		Signals.game_over.emit()
 

@@ -26,6 +26,10 @@ func _ready() -> void:
 
 func _game_over() -> void:
 	_clear_blobs()
+	Game.combo_counter = 1
+	Game.player_score = 0
+	Signals.score_updated.emit(Game.player_score)
+	Signals.combo_updated.emit(Game.combo_counter)
 	blob_spawn_timer.stop()
 	speed_burst_timer.stop()
 	# The game might end during a burst.
