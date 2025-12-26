@@ -81,10 +81,10 @@ func _update_score(value: int) -> void:
 func _update_combo(value: int) -> void:
 	var text: String = ""
 	if value < 5:
-		text = "x%d" % value
+		text = "[wave][color=579c7aff]x%d[/color][/wave]" % value
 	elif value < 10:
-		text = "[wave][color=yellow]x%d[/color][/wave]" % value
+		text = "[wave][color=a66b45ff]x%d[/color][/wave]" % value
 	else:
-		text = "[wave][color=red]x%d[/color][/wave]" % value
+		text = "[wave][color=d96361ff]x%d[/color][/wave]" % value
 
 	combo_label.text = text
