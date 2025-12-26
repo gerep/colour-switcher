@@ -29,7 +29,6 @@ func _ready() -> void:
 	Signals.burst_ended.connect(_burst_ended)
 	Signals.start_game.connect(_start_game)
 	Signals.game_over.connect(_game_over)
-	Signals.first_click.connect(func(): tutorial_label.visible = false)
 
 	start_button.pressed.connect(func(): Signals.start_game.emit())
 	retry_button.pressed.connect(func(): Signals.start_game.emit())
@@ -48,6 +47,7 @@ func _ready() -> void:
 
 func _game_over():
 	score_container.visible = false
+	burst_counter = 0
 	menu_container.visible = false
 	game_over_container.visible = true
 	tutorial_label.visible = false
@@ -60,6 +60,8 @@ func _start_game():
 	game_over_container.visible = false
 	score_container.visible = true
 	tutorial_label.visible = true
+	await get_tree().create_timer(2).timeout
+	tutorial_label.visible = false
 
 
 func _burst_started() -> void:
