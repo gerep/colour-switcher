@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bot17jvbdtn1v"]
+[gd_scene load_steps=6 format=3 uid="uid://bot17jvbdtn1v"]
 
 [ext_resource type="Texture2D" uid="uid://bsccmtmsv0ea7" path="res://assets/player.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://chcq6whmmeikw" path="res://scenes/player/player.gd" id="1_dovo2"]
+[ext_resource type="AudioStream" uid="uid://c62eodgb8ioju" path="res://assets/audio/drop_002.ogg" id="3_gmlin"]
+[ext_resource type="AudioStream" uid="uid://d04dsy5i3bx53" path="res://assets/audio/drop_003.ogg" id="4_lvxji"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x7p2l"]
 size = Vector2(300, 14)
@@ -15,3 +17,11 @@ shape = SubResource("RectangleShape2D_x7p2l")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_8afob")
+
+[node name="LeftClick" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_gmlin")
+volume_db = -5.0
+
+[node name="RightClick" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_lvxji")
+volume_db = -5.0

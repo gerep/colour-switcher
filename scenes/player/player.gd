@@ -4,6 +4,8 @@ var current_color: int = 0
 var _max_colors: int = 0
 
 @onready var player_sprite: Sprite2D = $PlayerSprite
+@onready var left_click: AudioStreamPlayer2D = $LeftClick
+@onready var right_click: AudioStreamPlayer2D = $RightClick
 
 
 func _ready() -> void:
@@ -13,8 +15,10 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"left_button"):
+		left_click.play()
 		current_color = wrapi(current_color + 1, 0, _max_colors)
 	elif event.is_action_pressed(&"right_button"):
+		right_click.play()
 		current_color = wrapi(current_color - 1, 0, _max_colors)
 
 	_change_color(player_sprite, current_color)
