@@ -37,13 +37,15 @@ func _process(delta: float) -> void:
 
 func _collision(body: Node2D) -> void:
 	if body.current_color == current_color:
+		Game.play_sucess()
 		gpu_particles_2d.emitting = true
 		sprite_2d.visible = false
 		burst_particle.emitting = false
 		Game.player_score += 1
 		Signals.score_updated.emit(Game.player_score)
 	else:
-		pass
+		Game.play_failure()
+		Signals.game_over.emit()
 
 	await gpu_particles_2d.finished
 	call_deferred(&"queue_free")

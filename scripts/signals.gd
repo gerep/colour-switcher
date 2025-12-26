@@ -7,3 +7,5 @@ signal burst_ended
 signal left_bar_color_changed(color_index: int)
 signal right_bar_color_changed(color_index: int)
 signal bottom_bar_color_changed(color_index: int)
+signal start_game
+signal game_over

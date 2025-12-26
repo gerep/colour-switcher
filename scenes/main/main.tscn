@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://d32upuhiloq8d"]
+[gd_scene load_steps=8 format=3 uid="uid://d32upuhiloq8d"]
 
 [ext_resource type="PackedScene" uid="uid://bot17jvbdtn1v" path="res://scenes/player/player.tscn" id="1_hyk8p"]
 [ext_resource type="Script" uid="uid://bjr08sporwt83" path="res://scenes/main/main.gd" id="1_iuonh"]
 [ext_resource type="FontFile" uid="uid://dsnbia58hdl6e" path="res://assets/fonts/SourceCodePro-Regular.ttf" id="3_k2fmo"]
 [ext_resource type="Script" uid="uid://dpgvspar0ysvw" path="res://scenes/main/hud.gd" id="3_l3cfh"]
 [ext_resource type="Shader" uid="uid://bo5f4mfrh6rg1" path="res://shaders/chromatic_aberration.gdshader" id="5_6q06x"]
+[ext_resource type="AudioStream" uid="uid://bbvpr0kc1lvvf" path="res://assets/audio/colour-switcher.mp3" id="6_ow5a4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ow5a4"]
 shader = ExtResource("5_6q06x")
@@ -18,12 +19,12 @@ script = ExtResource("1_iuonh")
 [node name="Player" parent="." instance=ExtResource("1_hyk8p")]
 position = Vector2(356, 1214)
 
-[node name="SpawnTimer" type="Timer" parent="."]
-autostart = true
+[node name="BlobSpawnTimer" type="Timer" parent="."]
 
 [node name="SpeedBurstTimer" type="Timer" parent="."]
 wait_time = 10.0
-autostart = true
+
+[node name="Blobs" type="Node" parent="."]
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("3_l3cfh")
@@ -37,7 +38,9 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="HUD/Control"]
+[node name="ScoreContainer" type="PanelContainer" parent="HUD/Control"]
+unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 1
 anchors_preset = 10
@@ -47,23 +50,23 @@ grow_horizontal = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="HUD/Control/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD/Control/ScoreContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Control/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Control/ScoreContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="ScoreLabel" type="Label" parent="HUD/Control/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="ScoreLabel" type="Label" parent="HUD/Control/ScoreContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_k2fmo")
 theme_override_font_sizes/font_size = 32
 text = "SCORE:"
 
-[node name="PointsLabel" type="Label" parent="HUD/Control/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="PointsLabel" type="Label" parent="HUD/Control/ScoreContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_k2fmo")
@@ -89,6 +92,75 @@ bbcode_enabled = true
 text = "[center][shake rate=20 level=20 connected=1]BURST TIME x1[/shake][/center]"
 fit_content = true
 
+[node name="GameOverContainer" type="PanelContainer" parent="HUD/Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/Control/GameOverContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Control/GameOverContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="GameOverLabel" type="RichTextLabel" parent="HUD/Control/GameOverContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(700, 100)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_k2fmo")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "texto aqui"
+
+[node name="Control" type="Control" parent="HUD/Control/GameOverContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="RetryButton" type="Button" parent="HUD/Control/GameOverContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_k2fmo")
+theme_override_font_sizes/font_size = 64
+text = "START"
+
+[node name="MenuContainer" type="PanelContainer" parent="HUD/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/Control/MenuContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Control/MenuContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HUD/Control/MenuContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(700, 100)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("3_k2fmo")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "texto aqui"
+
+[node name="Control" type="Control" parent="HUD/Control/MenuContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="HUD/Control/MenuContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_k2fmo")
+theme_override_font_sizes/font_size = 64
+text = "START"
+
 [node name="ChromaticAberration" type="ColorRect" parent="HUD"]
 visible = false
 material = SubResource("ShaderMaterial_ow5a4")
@@ -100,13 +172,22 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="LeftLine" type="Line2D" parent="."]
+position = Vector2(0, -104.18818)
+scale = Vector2(1, 1.0807661)
 points = PackedVector2Array(0, 1280, 0, 99)
 
 [node name="RightLine" type="Line2D" parent="."]
-position = Vector2(720, 0)
+position = Vector2(720, -104.18818)
+scale = Vector2(1, 1.0807661)
 points = PackedVector2Array(0, 1280, 0, 99)
 
 [node name="BottomLine" type="Line2D" parent="."]
 position = Vector2(1016, 1280)
 rotation = 1.5707964
 points = PackedVector2Array(0, 1016, 0, 296)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_ow5a4")
+volume_db = -1.0
+autoplay = true
+parameters/looping = true

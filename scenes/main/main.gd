@@ -2,11 +2,12 @@ extends Node2D
 
 const BLOB = preload("uid://b6chd6vkxeaaa")
 
-@onready var blob_spawn_timer: Timer = $SpawnTimer
+@onready var blob_spawn_timer: Timer = $BlobSpawnTimer
 @onready var speed_burst_timer: Timer = $SpeedBurstTimer
 @onready var right_line: Line2D = $RightLine
 @onready var left_line: Line2D = $LeftLine
 @onready var bottom_line: Line2D = $BottomLine
+@onready var blobs: Node = $Blobs
 
 
 func _ready() -> void:
@@ -19,14 +20,33 @@ func _ready() -> void:
 	Signals.right_bar_color_changed.connect(_right_bar_color_changed)
 	Signals.left_bar_color_changed.connect(_left_bar_color_changed)
 	Signals.bottom_bar_color_changed.connect(_bottom_bar_color_changed)
+	Signals.start_game.connect(_start_game)
+	Signals.game_over.connect(_game_over)
 
+
+func _game_over() -> void:
+	_clear_blobs()
+	blob_spawn_timer.stop()
+	speed_burst_timer.stop()
+	# The game might end during a burst.
+	Signals.burst_ended.emit()
+
+
+func _start_game():
 	# Drop the first blob to avoid waiting.
 	_spawn_blob()
+	blob_spawn_timer.start()
+	speed_burst_timer.start()
 
 
 func _spawn_blob() -> void:
 	var blob = BLOB.instantiate()
-	add_child(blob)
+	blobs.add_child(blob)
+
+
+func _clear_blobs() -> void:
+	for child in blobs.get_children():
+		child.queue_free()
 
 
 func _reset_blob_timer(interval: float) -> void:

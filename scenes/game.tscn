@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://c36dajhr8l6kq"]
+
+[ext_resource type="Script" uid="uid://do7g7cjurcwbb" path="res://scenes/game.gd" id="1_uwrxv"]
+[ext_resource type="AudioStream" uid="uid://bngpdw4py7y5q" path="res://assets/audio/plink.mp3" id="2_lnu2h"]
+[ext_resource type="AudioStream" uid="uid://dk61pcvdmtuwf" path="res://assets/audio/game-over.mp3" id="3_lbhrr"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_uwrxv")
+
+[node name="SuccessHit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_lnu2h")
+
+[node name="FailureHit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_lbhrr")
